@@ -34,12 +34,12 @@ namespace TimeReporter.Web.Dialogs
         private const string CURRENT_TIMEZONE = "CurrentTimezone";
 
         public const string HELP_TEXT = "Here are my commands:<br/>" +
-            "- type `start` or `in` to save start working time;<br/>" +
-            "- type `break` or `break start` or `-b` to save break start time;<br/>" +
-            "- type `work` or `break end` or `-w` to save break end time;<br/>" +
-            "- type `end` or `out` to save end working time and print your report;<br/>" +
-            "- type `timezone` to select your timezone<br/>" +
-            "- type `help` to get help";
+            "- type *start* or *in* to save start working time;<br/>" +
+            "- type *break* or *break start* or *-b* to save break start time;<br/>" +
+            "- type *work* or *break end* or *-w* to save break end time;<br/>" +
+            "- type *end* or *out* to save end working time and print your report;<br/>" +
+            "- type *timezone* to select your timezone<br/>" +
+            "- type *help* to get help";
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace TimeReporter.Web.Dialogs
             {
                 if (current != null)
                 {
-                    await context.SayAsync("You have not finished the previos report. The data will be lost.");
+                    await context.SayAsync("You have not finished the previous report. The data will be lost.");
                 }
 
                 Activity reply = activity.CreateReply($"You started working at {DateTime.UtcNow.ToTimeZoneString(tz)}");
@@ -147,7 +147,7 @@ namespace TimeReporter.Web.Dialogs
                     var lastBreak = current.Breaks.LastOrDefault();
                     if (lastBreak == null || lastBreak.End != default(DateTime))
                     {
-                        reply.Text = "You have not started a break yet. Type `break` to start the break";
+                        reply.Text = "You have not started a break yet.";
                     }
                     else
                     {
