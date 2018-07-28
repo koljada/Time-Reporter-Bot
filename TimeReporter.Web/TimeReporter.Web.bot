@@ -1,5 +1,5 @@
 {
-  "name": "TimeReporter.Web",
+  "name": "Time Reporter",
   "secretKey": "",
   "services": [
     {
@@ -8,7 +8,7 @@
       "type": "endpoint",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "TimeReporter.Web"
+      "name": "Time Reporter"
     }
   ]
 }

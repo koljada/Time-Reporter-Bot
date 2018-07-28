@@ -5,29 +5,27 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Autofac;
 using Microsoft.Bot.Connector;
 using System.Reflection;
+using System.Configuration;
+using System.Web;
 
 namespace TimeReporter.Web
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            Conversation.UpdateContainer(
-            builder =>
+            Conversation.UpdateContainer(builder =>
             {
                 builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
-                // Bot Storage: Here we register the state storage for your bot. 
-                // Default store: volatile in-memory store - Only for prototyping!
-                // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
-                // For samples and documentation, see: [https://github.com/Microsoft/BotBuilder-Azure](https://github.com/Microsoft/BotBuilder-Azure)
-                var store = new InMemoryDataStore();
-
-                // Other storage options
-                // var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
-                // var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
+#if DEBUG
+                var store = new InMemoryDataStore(); // volatile in-memory store
+#else
+                string connectionString = ConfigurationManager.AppSettings["TableStorage"];
+                TableBotDataStore store = new TableBotDataStore(connectionString);
+#endif
 
                 builder.Register(c => store)
                     .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
