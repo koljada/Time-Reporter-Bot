@@ -204,7 +204,7 @@ namespace TimeReporter.Web.Dialogs
             }
             else
             {
-                await context.SayAsync("Sorry, I didn't get. <br/>" + HELP_TEXT);
+                await context.SayAsync("Sorry, I didn't get it. <br/>" + HELP_TEXT);
             }
 
             context.Wait(MessageReceivedAsync);
